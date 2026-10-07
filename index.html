@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhanRang AI — Agentic Mobility & Autonomous Travel Infrastructure</title>
+  <meta name="description" content="Enterprise-grade AI orchestration platform for smart mobility, autonomous fleet dispatch, and multimodal travel intelligence powered by Claude 3.5.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --primary: #d97706;
+      --primary-light: #f59e0b;
+      --accent: #38bdf8;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .glow-bg {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, rgba(56, 189, 248, 0.05) 50%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 8%;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 10, 15, 0.8);
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 28px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #fff; }
+    .btn {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #090a0f;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+    .hero {
+      padding: 120px 8% 80px;
+      text-align: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: var(--primary-light);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+    h1 span {
+      background: linear-gradient(135deg, #fff 30%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p.subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      padding: 40px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+      margin-top: 60px;
+    }
+    .stat-item h3 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat-item p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .features {
+      padding: 100px 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-head {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-head h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+    }
+    .section-head p {
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 36px 28px;
+      border-radius: var(--radius);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+    .feature-icon {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      display: inline-block;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+    }
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .arch {
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 8%;
+    }
+    .arch-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #e6edf3;
+      overflow-x: auto;
+    }
+    footer {
+      padding: 60px 8%;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2.6rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .feature-grid { grid-template-columns: 1fr; }
+      .arch-container { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg"></div>
+
+  <header>
+    <div class="logo">
+      <span>⚡ PhanRang AI</span>
+      <span class="logo-badge">Platform</span>
+    </div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#api">API Docs</a>
+      <a href="#company">Company</a>
+    </nav>
+    <a href="#contact" class="btn">Get Started</a>
+  </header>
+
+  <section class="hero">
+    <div class="tag">🚀 Powered by Claude 3.5 & Model Context Protocol</div>
+    <h1>Autonomous Fleet Dispatch & <span>AI-Native Travel Intelligence</span></h1>
+    <p class="subtitle">
+      PhanRang AI delivers enterprise-grade multi-agent orchestration for real-time ride routing, omnichannel passenger booking, and automated travel logistics across Southeast Asia.
+    </p>
+    <div class="hero-actions">
+      <a href="#api" class="btn">Explore Developer Platform</a>
+      <a href="#contact" class="btn btn-secondary">Request Pilot Access</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat-item">
+        <h3>&lt;120ms</h3>
+        <p>Routing Latency</p>
+      </div>
+      <div class="stat-item">
+        <h3>99.94%</h3>
+        <p>Deterministic Tool Precision</p>
+      </div>
+      <div class="stat-item">
+        <h3>10+</h3>
+        <p>Supported Languages</p>
+      </div>
+      <div class="stat-item">
+        <h3>24/7</h3>
+        <p>Autonomous Dispatch</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="section-head">
+      <h2>Built for Modern Intelligent Transport</h2>
+      <p>Transforming urban transit and regional logistics into an autonomous, agent-driven ecosystem.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>Omnichannel Booking Agents</h3>
+        <p>Parse natural language voice notes, SMS, and web requests with sub-second multilingual intent recognition and coordinate extraction.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h3>MCP-Powered Geocoding</h3>
+        <p>Real-time geofence resolution and adaptive driver dispatching utilizing live traffic telemetry and dynamic pricing algorithms.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Enterprise Security & SLAs</h3>
+        <p>Zero-retention model inference, end-to-end encrypted dispatch channels, and 99.99% uptime guarantee for high-frequency transport operations.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture" class="arch">
+    <div class="arch-container">
+      <div>
+        <h2 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 16px;">Next-Gen Agentic Architecture</h2>
+        <p style="color: var(--text-muted); margin-bottom: 24px;">
+          Seamlessly connect Claude Sonnet and Haiku to real-time telemetry providers, booking databases, and telecommunication switches via Model Context Protocol.
+        </p>
+        <a href="#api" class="btn">View Technical Architecture →</a>
+      </div>
+      <div class="code-block">
+<span style="color:#7ee787;">// Dispatch Agent Workflow via Claude 3.5</span>
+<span style="color:#ff7b72;">import</span> { Agent, MCPRouter } <span style="color:#ff7b72;">from</span> <span style="color:#a5d6ff;">'@phanrang/ai'</span>;
+
+<span style="color:#ff7b72;">const</span> dispatcher = <span style="color:#ff7b72;">new</span> Agent({
+  model: <span style="color:#a5d6ff;">'claude-3-5-sonnet-latest'</span>,
+  tools: [MCPRouter.FleetTelemetry, MCPRouter.MapsRouting],
+  temperature: <span style="color:#79c0ff;">0.1</span>
+});
+
+<span style="color:#ff7b72;">const</span> result = <span style="color:#ff7b72;">await</span> dispatcher.dispatchRide({
+  passengerInput: <span style="color:#a5d6ff;">'Book 7-seater taxi from Ninh Chu Bay to Airport at 8am'</span>,
+  locale: <span style="color:#a5d6ff;">'en-US'</span>
+});
+      </div>
+    </div>
+  </section>
+
+  <footer id="company">
+    <div>
+      <strong>Phan Rang AI Technologies Co., Ltd.</strong>
+      <p style="margin-top: 4px;">58/25C 21 Thang 8, Phan Rang - Thap Cham, Vietnam • contact@phanrangtaxi.vn</p>
+    </div>
+    <div>
+      <p>© 2024-2026 PhanRang AI Platform. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
